@@ -1,4 +1,4 @@
-# 📁 FileMail – Gestor de Archivos y Correo
+# 📁 ArchivaSend – Gestor de Archivos y Correo
 
 **Grupo 4 – SENA Mujeres Digitales 2025**  
 API backend desarrollada en **NestJS** que permite a los usuarios autenticarse, subir archivos, listarlos con **paginación** y enviarlos por **correo electrónico como adjuntos**.
