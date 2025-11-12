@@ -1,4 +1,4 @@
-# 📁 FileMail – Gestor de Archivos y Correo
+#  📁 FileMail – Gestor de Archivos y Correo
 
 **Grupo 4 – SENA Mujeres Digitales 2025**  
 API backend desarrollada en **NestJS** que permite a los usuarios autenticarse, subir archivos, listarlos con **paginación** y enviarlos por **correo electrónico como adjuntos**.
@@ -6,6 +6,7 @@ API backend desarrollada en **NestJS** que permite a los usuarios autenticarse, 
 ---
 
 ## 🎯 Descripción del proyecto
+
 
 Esta API responde al enfoque temático asignado: **Gestor de archivos y correo con paginación**.  
 Fue construida íntegramente durante las **6 sesiones de 3 horas** del curso, aplicando buenas prácticas de desarrollo backend, arquitectura modular, seguridad y trabajo colaborativo ágil (SCRUM).
