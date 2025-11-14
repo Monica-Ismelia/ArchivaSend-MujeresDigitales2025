@@ -1,29 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
-import { User } from '../../auth/entities/user.entity';
+import { User } from 'src/auth/entities/user.entity';
 
-@Entity()
+@Entity('files')
 export class File {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
-  originalName: string;
+  filename: string;
 
   @Column()
-  storedName: string;
-
-  @Column()
-  path: string;
-
-  @Column()
-  size: number;
-
-  @Column()
-  mimetype: string;
-
-  @ManyToOne(() => User, user => user.files)
-  user: User;
+  url: string;
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @ManyToOne(() => User, (user) => user.files, { eager: true })
+  user: User;
 }
+
