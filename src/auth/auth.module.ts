@@ -10,12 +10,12 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   imports: [
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'secret_jwt_2025',
-      signOptions: { expiresIn: '1d' },
+      secret: process.env.JWT_SECRET || 'secret_jwt_2025', // Clave secreta para firmar los JWT
+      signOptions: { expiresIn: '1d' }, // Opciones para la firma del JWT, en este caso, el token expira en 1 día
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService],
-})
+  controllers: [AuthController], // Registra el AuthController en el módulo
+  providers: [AuthService, JwtStrategy], // Registra los proveedores AuthService y JwtStrategy
+  exports: [AuthService], // Exporta AuthService para que pueda ser utilizado en otros módulos
+}) // Define el módulo de autenticación
 export class AuthModule {}

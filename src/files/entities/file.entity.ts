@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
 import { User } from '../../auth/entities/user.entity';
 
-@Entity()
+@Entity({ name: 'files' })
 export class File {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -21,7 +21,7 @@ export class File {
   @Column()
   mimetype: string;
 
-  @ManyToOne(() => User, user => user.files)
+  @ManyToOne(() => User, user => user.files, { onDelete: 'CASCADE' })
   user: User;
 
   @CreateDateColumn()

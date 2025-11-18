@@ -1,0 +1,11 @@
+### Subir archivo con token
+POST http://localhost:3000/files/upload
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYjMxYzZlNC0zYzI5LTQzM2QtYTY1MS0zOWFiODY3MWI2MDciLCJlbWFpbCI6Im1vbmljYUB0ZXN0LmNvbSIsInJvbGUiOiJ1c2VyIiwic2VjdG9yIjoiY29tZXJjaW8iLCJpYXQiOjE3NjMyNzA3MTAsImV4cCI6MTc2MzM1NzExMH0.fiMAZJDFXFNLMGWuiWnZyIG3gMe75JndUkKawQBa8eU
+Content-Type: multipart/form-data; boundary=MiLimite
+
+--MiLimite
+Content-Disposition: form-data; name="file"; filename="prueba.pdf"
+Content-Type: application/pdf
+
+< ./prueba.pdf
+--MiLimite--

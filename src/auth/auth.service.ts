@@ -1,37 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { User, UserSector } from './entities/user.entity'; // Asegúrate de importar UserSector
 
 @Injectable()
-export class AuthService {
+export class AuthService { // Marca la clase AuthService como inyectable
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
-    private jwtService: JwtService,
-  ) {}
+    @InjectRepository(User) // Inyecta el repositorio de User
+    private userRepository: Repository<User>, // Define el repositorio de User como privado
+    private jwtService: JwtService, // Inyecta el servicio JWT
+  ) {} 
 
-  async register(registerDto: RegisterDto) {
-    const hashedPassword = await bcrypt.hash(registerDto.password, 10);
-    const user = this.userRepository.create({
-      email: registerDto.email,
-      password: hashedPassword,
+  async register(dto: RegisterDto) { // Método para registrar un nuevo usuario
+    const exists = await this.userRepository.findOne({ where: { email: dto.email } }); // Verifica si ya existe un usuario con el mismo email
+    if (exists) throw new BadRequestException('Email already exists'); // Lanza una excepción si el email ya está registrado
+
+    const hashed = await bcrypt.hash(dto.password, 10); // Hashea la contraseña del usuario
+    const user = this.userRepository.create({ // Crea una nueva entidad User
+      name: dto.name,
+      email: dto.email,
+      password: hashed,
+      sector: dto.sector || UserSector.COMERCIO, // ✅ Usa el enum
     });
-    return this.userRepository.save(user);
+    await this.userRepository.save(user);
+    
+    // ✅ Elimina password de forma segura antes de retornar el usuario
+    const { password, ...safeUser } = user;
+    return safeUser;
   }
 
-  async login(loginDto: LoginDto) {
-    const user = await this.userRepository.findOne({ where: { email: loginDto.email } });
-    if (user && await bcrypt.compare(loginDto.password, user.password)) {
-      const payload = { email: user.email, sub: user.id, role: user.role };
-      return {
-        access_token: this.jwtService.sign(payload),
-      };
+  async login(dto: LoginDto) { // Método para iniciar sesión de un usuario
+    const user = await this.userRepository.findOne({ 
+      where: { email: dto.email }, 
+      select: ['id', 'email', 'password', 'role', 'sector'] 
+    });
+    if (!user || !(await bcrypt.compare(dto.password, user.password))) { // Verifica las credenciales del usuario
+      throw new UnauthorizedException('Invalid credentials'); // Lanza una excepción si las credenciales son inválidas
     }
-    throw new Error('Credenciales inválidas');
+    const payload = { 
+      sub: user.id, 
+      email: user.email, 
+      role: user.role, 
+      sector: user.sector 
+    };
+    return { access_token: this.jwtService.sign(payload) }; // Retorna un token JWT firmado con el payload
   }
 }

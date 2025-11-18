@@ -1,75 +1,139 @@
-#  📁 ArchivaSend – Gestor de Archivos y Correo
+🌟 ArchivaSend – Gestor de Archivos y Envío de Correos
 
-**Grupo 4 – SENA Mujeres Digitales 2025**  
-API backend desarrollada en **NestJS** que permite a los usuarios autenticarse, subir archivos, listarlos con **paginación** y enviarlos por **correo electrónico como adjuntos**.
+Grupo 4 – SENA Mujeres Digitales 2025
+“Automatiza. Organiza. Conecta.”
 
----
+📘 Descripción del Proyecto
 
-## 🎯 Descripción del proyecto
+ArchivaSend es una API creada en NestJS que permite a usuarios autenticados subir archivos, listarlos con paginación, y enviarlos por correo electrónico como adjuntos, además de almacenar historial.
 
+El proyecto fue construido de forma colaborativa por el Grupo 4 como parte del programa Mujeres Digitales 2025.
 
-Esta API responde al enfoque temático asignado: **Gestor de archivos y correo con paginación**.  
-Fue construida íntegramente durante las **6 sesiones de 3 horas** del curso, aplicando buenas prácticas de desarrollo backend, arquitectura modular, seguridad y trabajo colaborativo ágil (SCRUM).
+## 👩‍💻 Roles del Equipo /  Integrantes 🧑‍🤝‍🧑
 
-El objetivo es ofrecer una solución técnica robusta, documentada y lista para producción, sin necesidad de interfaz frontend.
+| Integrante             | Rol Principal                     | Entregables / Responsabilidades                                                                 |
+|------------------------|-----------------------------------|--------------------------------------------------------------------------------------------------|
+| Angélica Grajales      | Autenticación y Gestión de Usuarios | Módulo Auth, registro/login, JWT, AuthGuard, roles (`user`/`admin`), pruebas unitarias           |
+| Yesica Sierra          | Base de datos y Entidades         | Modelado en PostgreSQL, entidades `User` y `File`, relaciones con TypeORM                        |
+| Carolina Tovio         | Gestión de Archivos               | Subida con Multer, paginación (`/files?page=1&limit=10`), endpoints seguros, pruebas             |
+| Evelin Moreno          | Envío de Correos                 | Integración con Resend, envío de adjuntos, historial en BD, manejo de errores                    |
+| Yeimi Silva            | Documentación                     | Swagger, decoradores en endpoints, `README.md`, capturas de evidencia                            |
+| Mónica Ismelia Cañas Reyes | Integración + README            | Estructura base del proyecto, coordinación SCRUM, despliegue en Render, `README.md` completo     |
+Todo el Grupo 4	Despliegue	Despliegue en Render, verificación en producción
 
----
+ 
+🛠️ Tecnologías Usadas
+Categoría	Tecnología
+Framework	NestJS
+Base de datos	PostgreSQL
+ORM	TypeORM
+Autenticación	JWT + Passport
+Validaciones	class-validator / class-transformer
+Archivos	Multer
+Correos	Resend
+Documentación	Swagger
+Deploy	Render
+Gestión	Trello
+Versionamiento	GitHub
+🚀 Instalación y Ejecución
+1️⃣ Instalar dependencias
+npm install
 
-## 👩‍💻 Roles de cada integrante
-
-| N.° | Integrante | Rol principal | Entregable clave |
-|-----|------------|----------------|------------------|
-| 1 | **Angélica** | Autenticación + Gestión de Usuarios | Módulo `Auth` con registro/login, JWT, `AuthGuard`, roles (`user`/`admin`) y pruebas unitarias |
-| 2 | **Yesica** | Base de datos + Entidades + Relaciones | Configuración de TypeORM + PostgreSQL, entidades `User` y `File` con relaciones (`@ManyToOne`, `@OneToMany`), validaciones y migraciones |
-| 3 | **Carolina** | Gestión de Archivos (subida + listado paginado) | `POST /files/upload` con Multer, `GET /files?page=1&limit=10` con paginación, acceso restringido al dueño, pruebas del servicio |
-| 4 | **Eve** | Envío de Correos (con adjuntos) | Integración con **Resend**, endpoint `POST /mail/send`, manejo de errores (archivo no existe, email inválido), pruebas del servicio |
-| 5 | **Yeimi** | Documentación + Swagger + README | Decoradores de Swagger en todos los endpoints, este archivo README, capturas de Postman/Swagger, ejemplos de uso |
-| 6 | **Mónica** | Despliegue + Integración | Estructura base del proyecto, coordinación de dailys y Trello, despliegue en **Railway**, verificación de funcionamiento en producción |
-
----
-
-## 🛠️ Tecnologías y herramientas a  utilizadar
-
-- **Framework**: [NestJS](https://nestjs.com/)
-- **Base de datos**: PostgreSQL
-- **ORM**: TypeORM
-- **Autenticación**: JWT + Passport
-- **Validaciones**: `class-validator` + `class-transformer`
-- **Subida de archivos**: Multer
-- **Envío de correos**: Resend
-- **Documentación**: Swagger
-- **Gestión ágil**: Trello (tablero compartido con docente)
-- **Despliegue**: Railway
-- **Control de versiones**: GitHub
-
----
-
-## 📥 Instrucciones para ejecutar la API localmente
-
-### Requisitos previos
-- Node.js (v18 o superior)
-- PostgreSQL instalado y en ejecución
-- Cliente de API (Postman o similar)
-
-### Pasos
-
-1. **Crear y Clonar el repositorio**
-2. ** Instalar dependencias**
-- npm install
-3. Configurar variables de entorno
-Crea un archivo .env en la raíz del proyecto con base en .env.example:
-JWT_SECRET=tu_clave_secreta_jwt_2025
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=tu_usuario_postgres
-DB_PASSWORD=tu_contraseña
-DB_DATABASE=gestor_archivos_db
+2️⃣ Configurar archivo .env
+JWT_SECRET=tu_clave_secreta_jwt
 RESEND_API_KEY=tu_clave_de_resend
 
-4. Crear la base de datos
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=tu_usuario
+DB_PASSWORD=tu_contraseña
+DB_DATABASE=gestor_archivos_db
+
+3️⃣ Crear la base de datos
+
+Puedes usar el script:
+
+database.sql
+
+
+O manualmente:
+
 CREATE DATABASE gestor_archivos_db;
 
-5. Iniciar el servidor en modo desarrollo
+4️⃣ Iniciar servidor
 npm run start:dev
-6. Acceder a la documentación
-Swagger: http://localhost:3000/api
+
+5️⃣ Documentación Swagger
+
+👉 http://localhost:3000/api
+
+🔐 Endpoints de Autenticación
+Método	Ruta	Descripción
+POST	/auth/register	Registrar usuario
+POST	/auth/login	Iniciar sesión
+Ejemplo de registro
+{
+  "name": "Mónica",
+  "email": "monica@test.com",
+  "password": "123456",
+  "sector": "comercio"
+}
+
+Ejemplo de login
+{
+  "email": "monica@test.com",
+  "password": "123456"
+}
+
+
+Todos los endpoints protegidos requieren:
+Authorization: Bearer <token>
+
+📁 Endpoints de Archivos
+Método	Ruta	Descripción
+POST	/files/upload	Subir archivo (form-data → file)
+GET	/files?page=1&limit=10	Listar archivos del usuario con paginación
+✉️ Endpoints de Correos
+Método	Ruta	Descripción
+POST	/mail/send	Enviar archivo por correo
+Ejemplo
+{
+  "to": "destino@test.com",
+  "fileId": "uuid-del-archivo"
+}
+
+🧪 Pruebas Unitarias
+Servicio	Estado
+AuthService	✅ Aprobado
+FilesService	✅ Aprobado
+EmailsService	✅ Aprobado
+
+Ejecutar pruebas:
+
+npm run test
+
+📸 Evidencias
+
+Las evidencias están en:
+
+📁 /evidencias/
+
+Incluyen:
+
+Registro y login
+
+Subida de archivos
+
+Paginación
+
+Envío de correos
+
+Swagger
+
+Pruebas unitarias
+
+☁️ Despliegue
+Servicio	URL
+API Base	https://gestor-archivos-grupo4.onrender.com
+
+Swagger	https://gestor-archivos-grupo4.onrender.com/api
