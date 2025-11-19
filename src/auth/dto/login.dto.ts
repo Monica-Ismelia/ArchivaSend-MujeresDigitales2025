@@ -2,11 +2,25 @@ import { ApiProperty } from '@nestjs/swagger'; // Importa  ejemplo  para que los
 import { IsEmail, IsNotEmpty } from 'class-validator'; // Importa los validadores necesarios
 
 export class LoginDto {// Define la clase LoginDto
-  @ApiProperty({ example: 'john@test.com', description: 'Correo electrónico del usuario' }) // Proporciona un ejemplo para la documentación Swagger
+
+
+  @ApiProperty({
+    name: 'email',
+    required: true,
+    type: String,
+    description: 'Correo electrónico registrado en el sistema.',
+    example: 'usuario@example.com',
+  }) // Proporciona un ejemplo para la documentación Swagger
   @IsEmail() // Valida que el campo sea un correo electrónico válido
   email: string;
 
-  @ApiProperty({ example: '123456', description: 'Contraseña del usuario' }) // Proporciona un ejemplo para la documentación Swagger
+  @ApiProperty({
+    name: 'password',
+    required: true,
+    type: String,
+    description: 'Contraseña asociada al usuario.',
+    example: '123456',
+  }) // Proporciona un ejemplo para la documentación Swagger
   @IsNotEmpty() // Valida que el campo no esté vacío
   password: string;
 }

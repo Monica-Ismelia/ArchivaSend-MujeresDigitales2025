@@ -23,7 +23,8 @@ import {
   ApiOperation,
   ApiQuery,
   ApiTags,
-  ApiBearerAuth,       // ← IMPORTANTE
+  ApiBearerAuth,
+  ApiResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('Files')
@@ -32,6 +33,7 @@ import {
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
+
 
   @Post('upload')
   @ApiConsumes('multipart/form-data')
@@ -42,11 +44,33 @@ export class FilesController {
         file: {
           type: 'string',
           format: 'binary',
+          description: 'Archivo a subir (jpg, jpeg, png, pdf, doc, docx)',
         },
       },
+      required: ['file'],
     },
   })
-  @ApiOperation({ summary: 'Sube un archivo (imágenes o documentos)' })
+  @ApiOperation({
+    summary: 'Subir archivo',
+    description:
+      'Permite que el usuario autenticado suba un archivo al servidor.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Archivo subido correctamente.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'El archivo no es válido.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'No autorizado.',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Error interno del servidor.',
+  })
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -67,15 +91,47 @@ export class FilesController {
       },
     }),
   )
-  async uploadFile(@UploadedFile() file: Express.Multer.File, @Req() req: Request) {
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: Request,
+  ) {
     const userId = (req as any).user.id;
     return this.filesService.create(file, userId);
   }
 
+
   @Get()
-  @ApiOperation({ summary: 'Lista archivos del usuario autenticado con paginación' })
-  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
-  @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
+  @ApiOperation({
+    summary: 'Listar archivos del usuario',
+    description:
+      'Devuelve la lista de archivos subidos por el usuario autenticado con paginación.',
+  })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Número de página para la paginación',
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Número de elementos por página',
+    example: 10,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Listado paginado de archivos.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'No autorizado.',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Error interno del servidor.',
+  })
   async findAll(
     @Query('page', ParseIntPipe) page: number = 1,
     @Query('limit', ParseIntPipe) limit: number = 10,
