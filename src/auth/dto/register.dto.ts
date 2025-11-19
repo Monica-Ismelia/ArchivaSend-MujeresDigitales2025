@@ -3,28 +3,44 @@ import { IsEmail, IsNotEmpty, MinLength } from 'class-validator'; // Importa los
 import { UserSector } from '../entities/user.entity';// Importa el enum UserSector de la entidad User
 
 export class RegisterDto { // Define la clase RegisterDto
-  @ApiProperty({ example: 'John Doe',// Proporciona un ejemplo para la documentación Swagger
-    description: 'Nombre completo del usuario'
-   })
+  @ApiProperty({
+    name: 'name',
+    required: true,
+    type: String,
+    description: 'Nombre completo del usuario.',
+    example: 'John Doe',
+  })
    @IsNotEmpty() // Valida que el campo no esté vacío
   name: string; // Define la propiedad name de tipo string
 
-  @ApiProperty({ example: 'john@test.com', // Proporciona un ejemplo para la documentación Swagger
-    description: 'Correo electrónico del usuario'
-   })
+  @ApiProperty({
+    name: 'email',
+    required: true,
+    type: String,
+    description: 'Correo electrónico del usuario.',
+    example: 'monica@test.com',
+  })
   @IsEmail() // Valida que el campo sea un correo electrónico válido
   email: string;
 
-  @ApiProperty({ example: '123456', // Proporciona un ejemplo para la documentación Swagger
-    description: 'Contraseña del usuario de  al menos 6 caracteres',
-   })
+  @ApiProperty({
+    name: 'password',
+    required: true,
+    type: String,
+    description: 'Contraseña del usuario, mínimo 6 caracteres.',
+    example: '123456',
+  })
   @IsNotEmpty() // Valida que el campo no esté vacío
   @MinLength(6) // Valida que la contraseña tenga al menos 6 caracteres
   password: string;
 
-  @ApiProperty({ example: 'COMERCIO', // Proporciona un ejemplo para la documentación Swagger
-    enum: UserSector, //
-      description: 'Sector al que pertenece el usuario COMERCIO, BANCA, EDUCACION', 
-    }) // Define la propiedad sector como opcional usando el enum UserSector
+  @ApiProperty({
+    name: 'sector',
+    required: false,
+    type: String,
+    description: 'Sector al que pertenece el usuario. Valores válidos: COMERCIO, BANCA, EDUCACION.',
+    example: 'COMERCIO',
+    enum: UserSector,
+  }) // Define la propiedad sector como opcional usando el enum UserSector
   sector?: UserSector;
 }
