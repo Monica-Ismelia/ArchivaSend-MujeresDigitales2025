@@ -18,7 +18,7 @@ export class RegisterDto { // Define la clase RegisterDto
     required: true,
     type: String,
     description: 'Correo electrónico del usuario.',
-    example: 'monica@test.com',
+    example: 'example@test.com',
   })
   @IsEmail() // Valida que el campo sea un correo electrónico válido
   email: string;

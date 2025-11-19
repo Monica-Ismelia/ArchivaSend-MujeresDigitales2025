@@ -41,11 +41,11 @@ export class AuthService { // Marca la clase AuthService como inyectable
     if (!user || !(await bcrypt.compare(dto.password, user.password))) { // Verifica las credenciales del usuario
       throw new UnauthorizedException('Invalid credentials'); // Lanza una excepción si las credenciales son inválidas
     }
-    const payload = { 
-      sub: user.id, 
-      email: user.email, 
-      role: user.role, 
-      sector: user.sector 
+    const payload = {  // Crea el payload para el token JWT
+      sub: user.id,  // Añade el ID del usuario al payload
+      email: user.email, // Añade el email al payload
+      role: user.role, // Añade el rol al payload
+      sector: user.sector // Añade el sector al payload
     };
     return { access_token: this.jwtService.sign(payload) }; // Retorna un token JWT firmado con el payload
   }

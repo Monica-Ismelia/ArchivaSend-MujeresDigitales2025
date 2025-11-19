@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Email } from './entities/email.entity';
 import { File } from '../files/entities/file.entity';
 import { User } from '../auth/entities/user.entity';
+import { SendEmailDto } from './dto/send-email.dto';
 
 @Injectable()
 export class EmailsService {
@@ -17,7 +18,8 @@ export class EmailsService {
     private fileRepository: Repository<File>,
   ) {}
 
-  async send(dto: { to: string; fileId: string }, userId: string) {
+  async send(dto: SendEmailDto, userId: string) {
+  // ✅ Verifica que el archivo exista y pertenezca al usuario
     const file = await this.fileRepository.findOne({ where: { id: dto.fileId, user: { id: userId } } });
     if (!file) throw new NotFoundException('Archivo no encontrado o no autorizado');
 

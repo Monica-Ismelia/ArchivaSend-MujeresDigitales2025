@@ -1,3 +1,4 @@
+// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,22 +10,36 @@ import { File } from './files/entities/file.entity';
 import { Email } from './emails/entities/email.entity';
 
 @Module({
-  imports: [ // Módulos importados
-    ConfigModule.forRoot({ isGlobal: true }), // Carga .env  y lo hace global
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
 
-    TypeOrmModule.forRootAsync({ // Configura TypeORM de forma asíncrona
-      inject: [ConfigService],// Inyecta ConfigService para acceder a las variables de entorno
-      useFactory: (configService: ConfigService) => ({ 
-        type: 'postgres', // Tipo de base de datos
-        host: configService.get('DB_HOST', 'localhost'), // Host de la base de datos
-        port: configService.get('DB_PORT', 5432), // Puerto de la base de datos
-        username: configService.get('DB_USERNAME', 'postgres'), // Usuario de la base de datos
-        password: configService.get('DB_PASSWORD', 'postgres'), // Contraseña de la base de datos
-        database: configService.get('DB_DATABASE', 'gestor_archivos_db'), // Nombre de la base de datos
-        entities: [User, File, Email], // ← todas tus entidades
-        synchronize: configService.get('NODE_ENV') !== 'production', // solo en desarrollo
-        logging: false,
-      }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        // ✅ Soporte para DATABASE_URL (Render) y variables individuales (local)
+        const databaseUrl = configService.get('DATABASE_URL');
+        if (databaseUrl) {
+          return {
+            type: 'postgres',
+            url: databaseUrl,
+            entities: [User, File, Email],
+            synchronize: false, // ← ¡Nunca en producción!
+            logging: false,
+          };
+        }
+
+        return {
+          type: 'postgres',
+          host: configService.get('DB_HOST', 'localhost'),
+          port: configService.get('DB_PORT', 5432),
+          username: configService.get('DB_USERNAME', 'postgres'),
+          password: configService.get('DB_PASSWORD', 'postgres'),
+          database: configService.get('DB_DATABASE', 'gestor_archivos_db'),
+          entities: [User, File, Email],
+          synchronize: configService.get('NODE_ENV') !== 'production',
+          logging: false,
+        };
+      },
     }),
 
     AuthModule,

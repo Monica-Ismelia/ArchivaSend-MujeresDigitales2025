@@ -8,7 +8,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User]),// Importa la entidad User para usarla con TypeORM
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'secret_jwt_2025', // Clave secreta para firmar los JWT
       signOptions: { expiresIn: '1d' }, // Opciones para la firma del JWT, en este caso, el token expira en 1 día

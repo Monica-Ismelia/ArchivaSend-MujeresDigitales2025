@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Req, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req, HttpStatus, UsePipes, ValidationPipe } from '@nestjs/common';
 import { EmailsService } from './emails.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SendEmailDto } from './dto/send-email.dto';
@@ -22,8 +22,8 @@ export class EmailsController {
     description: 'Datos necesarios para enviar el correo: destinatario y ID del archivo adjunto.',
   })
   @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Correo enviado exitosamente.',
+    status: HttpStatus.CREATED,
+    description: 'Correo enviado exitosamente. Se ha generado un registro en el historial.',
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -41,6 +41,7 @@ export class EmailsController {
       'No se encontró el archivo indicado por fileId o el recurso relacionado no existe.',
   })
   @Post('send')
+  @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
   async sendEmail(@Body() dto: SendEmailDto, @Req() req) {
     return this.emailsService.send(dto, req.user.id);
   }

@@ -2,7 +2,7 @@ import { Controller, Post, Body, UsePipes, ValidationPipe, HttpStatus } from '@n
 import { AuthService } from './auth.service'; // Importa el servicio de autenticación
 import { RegisterDto } from './dto/register.dto'; // Importa el DTO de registro
 import { LoginDto } from './dto/login.dto'; // Importa el DTO de inicio de sesión
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger'; // Importa los decoradores de Swagger para la documentación de la API
+import { ApiBody, ApiOperation, ApiResponse, ApiOkResponse } from '@nestjs/swagger'; // Importa los decoradores de Swagger para la documentación de la API
 
 @Controller('auth') // Define el controlador con la ruta base 'auth'
 export class AuthController { // Define la clase AuthController
@@ -17,13 +17,13 @@ export class AuthController { // Define la clase AuthController
   @ApiBody({
     type: RegisterDto,
     description: 'Datos necesarios para registrar un usuario.',
-  })
+  }) 
   @ApiResponse({
-    status: HttpStatus.CREATED,
+    status: HttpStatus.CREATED, // Código de estado 201
     description: 'Usuario registrado exitosamente.',
   })
   @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
+    status: HttpStatus.BAD_REQUEST, // Código de estado 400
     description: 'Datos inválidos o faltantes en la solicitud.',
   })
   @Post('register') // Define la ruta POST /auth/register
@@ -35,24 +35,24 @@ export class AuthController { // Define la clase AuthController
   
   
   @ApiOperation({
-    summary: 'Iniciar sesión',
-    description:
+    summary: 'Iniciar sesión', // Resumen de la operación
+    description: 
       'Permite a un usuario registrado iniciar sesión proporcionando sus credenciales.',
   })
-  @ApiBody({
-    type: LoginDto,
+  @ApiBody({ 
+    type: LoginDto, // Especifica el tipo de datos esperado en el cuerpo de la solicitud
     description: 'Credenciales necesarias para iniciar sesión.'
   })
   @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Inicio de sesión exitoso.'
+    status: HttpStatus.CREATED, // Código de estado 201
+    description: 'Inicio de sesión exitoso. se ha generado un nuevo token de autenticación.',
   })
   @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
+    status: HttpStatus.UNAUTHORIZED,// Código de estado 401
     description: 'Credenciales incorrectas.'
   })
   @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
+    status: HttpStatus.BAD_REQUEST, // Código de estado 400
     description: 'El formato de los datos enviados no es válido.'
   })
   @Post('login') // Define la ruta POST /auth/login

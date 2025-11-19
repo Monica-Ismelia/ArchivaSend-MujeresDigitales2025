@@ -9,7 +9,7 @@ export class LoginDto {// Define la clase LoginDto
     required: true,
     type: String,
     description: 'Correo electrónico registrado en el sistema.',
-    example: 'usuario@example.com',
+    example: 'example@test.com',
   }) // Proporciona un ejemplo para la documentación Swagger
   @IsEmail() // Valida que el campo sea un correo electrónico válido
   email: string;
