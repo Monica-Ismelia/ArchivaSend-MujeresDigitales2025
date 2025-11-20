@@ -74,15 +74,12 @@ export class FilesController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
+  destination: './uploads', // ← Carpeta relativa
+  filename: (req, file, cb) => {
+    const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
+    cb(null, `${randomName}${extname(file.originalname)}`);
+  },
+}),
       fileFilter: (req, file, cb) => {
         if (!file.mimetype.match(/\/(jpg|jpeg|png|pdf|doc|docx)$/)) {
           return cb(new Error('Solo se permiten imágenes y documentos'), false);
