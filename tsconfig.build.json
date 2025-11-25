@@ -1,6 +1,14 @@
 {
-  "scripts": {
-    "build": "tsc --skipLibCheck --project tsconfig.build.json",
-    "start:prod": "npm run build && node dist/main"
-  }
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "declaration": true,
+    "sourceMap": true,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "node_modules",
+    "test",
+    "**/*.spec.ts"
+  ]
 }
