@@ -5,7 +5,7 @@
   "author": "Monica",
   "license": "MIT",
   "scripts": {
-    "build": "tsc --skipLibCheck --rootDir src",
+    "build": ""tsc --skipLibCheck --project tsconfig.build.json",
       "start": "node dist/main.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
