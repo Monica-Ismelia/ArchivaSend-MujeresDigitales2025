@@ -17,8 +17,8 @@ El proyecto fue construido de forma colaborativa por el Grupo 4 como parte del p
 | Yesica Sierra          | Base de datos y Entidades         | Modelado en PostgreSQL, entidades `User` y `File`, relaciones con TypeORM                        |
 | Carolina Tovio         | Gestión de Archivos               | Subida con Multer, paginación (`/files?page=1&limit=10`), endpoints seguros, pruebas             |
 | Evelin Moreno          | Envío de Correos                 | Integración con Resend, envío de adjuntos, historial en BD, manejo de errores                    |
-| Yeimi Silva            | Documentación                     | Swagger, decoradores en endpoints, `README.md`, capturas de evidencia                            |
-| Mónica Ismelia Cañas Reyes | Integración + README            | Estructura base del proyecto, coordinación SCRUM, despliegue en Render, `README.md` completo     |
+| Yeimi Silva            | Documentación                     | Swagger, decoradores en endpoints,  capturas de evidencia.                            |
+| Mónica Ismelia Cañas Reyes | Integración + README            | Estructura base del proyecto, coordinación SCRUM, despliegue en Render, `README.md`    |
 Todo el Grupo 4	Despliegue	Despliegue en Render, verificación en producción
 
  
@@ -134,6 +134,6 @@ Pruebas unitarias
 
 ☁️ Despliegue
 Servicio	URL
-API Base	https://gestor-archivos-grupo4.onrender.com
+API Base	https://archivasend-mujeresdigitales2025.onrender.com
 
-Swagger	https://gestor-archivos-grupo4.onrender.com/api
+Swagger	https://archivasend-mujeresdigitales2025.onrender.com/api
