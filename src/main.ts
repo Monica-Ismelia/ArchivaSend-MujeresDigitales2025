@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as fs from 'fs';      // ← Agrega esta línea
-import * as path from 'path';  // ← Agrega esta línea
+import * as fs from 'fs';      // ← Importa fs
+import * as path from 'path';  // ← Importa path
 
 async function bootstrap() {
   // ✅ Crea la carpeta uploads si no existe
