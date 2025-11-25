@@ -23,7 +23,7 @@ import { Email } from './emails/entities/email.entity';
             type: 'postgres',
             url: databaseUrl,
             entities: [User, File, Email],
-            synchronize: true, // ← ¡Nunca en producción!
+            synchronize: false, // ← ¡Nunca en producción!
             //dropSchema: true,
             logging: false,
           };
