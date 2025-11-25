@@ -1,44 +1,43 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
 import { EmailsModule } from './emails/emails.module';
-import { User } from './auth/entities/user.entity';
-import { File } from './files/entities/file.entity';
-import { Email } from './emails/entities/email.entity';
 
 @Module({
   imports: [
+    // Variables de entorno
     ConfigModule.forRoot({ isGlobal: true }),
 
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        // ✅ Soporte para DATABASE_URL (Render) y variables individuales (local)
-        const databaseUrl = configService.get('DATABASE_URL');
+        const databaseUrl = configService.get<string>('DATABASE_URL');
+
+        // 🟢 Si usamos Render / Railway
         if (databaseUrl) {
           return {
             type: 'postgres',
-            url: databaseUrl,
-            entities: [User, File, Email],
-            synchronize: false, // ← ¡Nunca en producción!
-            //dropSchema: true,
-            logging: false,
+            url: process.env.DATABASE_URL,
+            autoLoadEntities: true,
+            synchronize: false, // nunca en prod
+            ssl: {
+              rejectUnauthorized: false,
+            },
           };
         }
 
+        // 🟡 Localhost
         return {
           type: 'postgres',
           host: configService.get('DB_HOST', 'localhost'),
-          port: configService.get('DB_PORT', 5432),
+          port: +configService.get('DB_PORT', 5432),
           username: configService.get('DB_USERNAME', 'postgres'),
           password: configService.get('DB_PASSWORD', 'postgres'),
           database: configService.get('DB_DATABASE', 'gestor_archivos_db'),
-          entities: [User, File, Email],
-          synchronize: configService.get('NODE_ENV') !== 'production',
-          logging: false,
+          autoLoadEntities: true,
+          synchronize: true, // SOLO local
         };
       },
     }),
