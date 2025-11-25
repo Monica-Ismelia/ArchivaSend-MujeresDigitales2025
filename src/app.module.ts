@@ -24,6 +24,7 @@ import { Email } from './emails/entities/email.entity';
             url: databaseUrl,
             entities: [User, File, Email],
             synchronize: true, // ← ¡Nunca en producción!
+            dropSchema: true,
             logging: false,
           };
         }
