@@ -14,8 +14,8 @@
     "test": "jest"
   },
   "engines": {
-  "node": "18.x"
-},
+    "node": "20.x"
+  },
   "dependencies": {
     "@nestjs/common": "^10.4.20",
     "@nestjs/config": "^3.3.0",
@@ -36,7 +36,6 @@
     "resend": "^6.5.2",
     "typeorm": "^0.3.27"
   },
-  
   "devDependencies": {
     "@nestjs/cli": "^11.0.12",
     "@types/bcrypt": "^6.0.0",
@@ -46,8 +45,8 @@
     "@types/passport": "^1.0.17",
     "@types/passport-jwt": "^4.0.1",
     "jest": "^30.2.0",
+    "rimraf": "^5.0.10",
     "ts-jest": "^29.4.5",
-    "typescript": "^5.3.3",
-    "rimraf": "^5.0.5"
+    "typescript": "^5.3.3"
   }
 }
