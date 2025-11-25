@@ -21,7 +21,7 @@ import { EmailsModule } from './emails/emails.module';
             type: 'postgres',
             url: process.env.DATABASE_URL,
             autoLoadEntities: true,
-            synchronize: true, // nunca en prod
+            synchronize: false, // nunca en prod
             ssl: {
               rejectUnauthorized: false,
             },
