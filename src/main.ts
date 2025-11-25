@@ -2,15 +2,12 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as fs from 'fs';      // ← Importa fs
-import * as path from 'path';  // ← Importa path
+import * as fs from 'fs';
+import * as path from 'path';
 
 async function bootstrap() {
-  // ✅ Crea la carpeta uploads si no existe
   const uploadDir = path.join(__dirname, '..', 'uploads');
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
+  if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
   const app = await NestFactory.create(AppModule);
 
@@ -19,14 +16,7 @@ async function bootstrap() {
     .setDescription('API backend con NestJS')
     .setVersion('1.0')
     .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        name: 'JWT',
-        description: 'Ingresa tu token JWT',
-        in: 'header',
-      },
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT', name: 'JWT', description: 'Ingresa tu token JWT', in: 'header' },
       'access-token',
     )
     .build();
@@ -36,7 +26,7 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  await app.listen(port, '0.0.0.0');
-
+  console.log(`Application running on port ${port}`);
 }
+
 bootstrap();
