@@ -119,6 +119,7 @@ Las evidencias están en:
 📁 /evidencias/
 
 Incluyen:
+*********
 
 Registro y login
 
